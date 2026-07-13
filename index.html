@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Tổ công tác số 5 - GPMB các dự án</title>
+  <style>
+    :root {
+      --bg: #f4f7f2;
+      --panel: #ffffff;
+      --panel-soft: #edf5e8;
+      --ink: #17231d;
+      --muted: #647064;
+      --line: #d7e3d2;
+      --accent: #2f6f4e;
+      --accent-2: #b7791f;
+      --accent-3: #6f7d3a;
+      --ok: #2f7d49;
+      --warn: #a06413;
+      --blue: #4f6f52;
+      --shadow: 0 10px 30px rgba(37, 60, 45, 0.08);
+      --radius: 8px;
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, "Helvetica Neue", sans-serif;
+      line-height: 1.45;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(244, 247, 242, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand strong {
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .navlinks a,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      background:
+        linear-gradient(90deg, rgba(47, 111, 78, 0.97), rgba(111, 125, 58, 0.88)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='520' viewBox='0 0 1200 520'%3E%3Crect width='1200' height='520' fill='%232f6f4e'/%3E%3Cpath d='M0 390 C190 300 310 370 510 280 C710 190 790 220 980 135 C1080 90 1140 90 1200 70 L1200 520 L0 520Z' fill='%23ffffff' opacity='.12'/%3E%3Cpath d='M0 305 C220 235 340 265 540 190 C760 107 980 133 1200 45' fill='none' stroke='%23ffffff' stroke-width='16' stroke-linecap='round' opacity='.18'/%3E%3Cpath d='M70 430 L230 340 L392 370 L540 270 L710 295 L875 200 L1050 230 L1160 160' fill='none' stroke='%23f0c36a' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' opacity='.84'/%3E%3Ccircle cx='230' cy='340' r='13' fill='%23f0c36a'/%3E%3Ccircle cx='540' cy='270' r='13' fill='%23f0c36a'/%3E%3Ccircle cx='875' cy='200' r='13' fill='%23f0c36a'/%3E%3C/svg%3E");
+      background-size: cover;
+      color: #fff;
+      min-height: 244px;
+      display: flex;
+      align-items: end;
+    }
+
+    .hero-inner {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, .35);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 16px 0 0;
+      max-width: 900px;
+      font-size: 16px;
+      color: rgba(255, 255, 255, .9);
+    }
+
+    main {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 46px;
+    }
+
+    section {
+      margin-top: 26px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .hint {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .two-col {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .card-pad {
+      padding: 16px;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 38px;
+    }
+
+    .kpi .value {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .kpi .note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px 220px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .searchbox,
+    select {
+      width: 100%;
+      min-width: 0;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      padding: 0 12px;
+    }
+
+    .chart-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .chart-title h3,
+    .project-title h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .chart {
+      width: 100%;
+      height: 240px;
+      min-height: 0;
+      display: block;
+    }
+
+    .chart.owner-chart {
+      height: 286px;
+    }
+
+    .chart.owner-fund-chart {
+      height: 260px;
+    }
+
+    .chart.progress-percent-chart {
+      height: 340px;
+    }
+
+    .chart.summary-status-chart {
+      height: 180px;
+    }
+
+    .one-col {
+      grid-template-columns: 1fr;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .phase {
+      border-left: 5px solid var(--accent);
+    }
+
+    .phase:nth-child(2) { border-left-color: var(--accent-2); }
+    .phase:nth-child(3) { border-left-color: var(--ok); }
+    .phase:nth-child(4) { border-left-color: var(--accent-3); }
+
+    .phase strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .date-chip {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #eef4f7;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .phase ul,
+    .compact-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .overall-summary {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .summary-lead {
+      border-left: 6px solid var(--accent-2);
+      background: #fff9ea;
+    }
+
+    .summary-lead strong {
+      display: block;
+      color: #8a5a10;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .summary-lead .hint {
+      color: #51401d;
+      font-size: 14px;
+    }
+
+    .summary-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mini-metric {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+      min-width: 0;
+    }
+
+    .mini-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mini-metric b {
+      display: block;
+      margin-top: 4px;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .summary-chart-title {
+      margin: 14px 0 8px;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 230px;
+      gap: 14px;
+      align-items: start;
+      padding: 14px;
+    }
+
+    .ordinal {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--panel-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .project-title {
+      min-width: 0;
+    }
+
+    .project-title h3 {
+      overflow-wrap: anywhere;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: #fff;
+      font-size: 12px;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .pill.private-fund {
+      border-color: #d6a24a;
+      background: #fff6df;
+      color: #7c4b09;
+      font-weight: 700;
+    }
+
+    .progress-panel {
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid #b8c7e6;
+      border-radius: var(--radius);
+      background: #f1f5ff;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 7px 8px;
+      color: #294879;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .progress-label {
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-row strong {
+      color: #294879;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .bar {
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      background: #d7e1f5;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: var(--p, 100%);
+      border-radius: inherit;
+      opacity: .92;
+      background: linear-gradient(90deg, var(--accent-2), #d69b2d);
+    }
+
+    .fill.pending {
+      width: 100%;
+      background: repeating-linear-gradient(135deg, #6f7d3a 0 10px, #b6c08d 10px 20px);
+    }
+
+    .progress-panel.has-rate {
+      border-color: #e8c77d;
+      background: #fff9ea;
+    }
+
+    .progress-panel.has-rate .progress-row,
+    .progress-panel.has-rate .progress-row strong,
+    .progress-panel.has-rate .status {
+      color: #8a5a10;
+    }
+
+    .progress-panel.has-rate .bar {
+      background: #efd9a3;
+    }
+
+    .deadline {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px 8px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      margin-top: 8px;
+      color: #294879;
+      font-size: 12px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      background: #f8fafb;
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .source-detail {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+      overflow: hidden;
+    }
+
+    .source-detail summary,
+    details.members summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 38px;
+      padding: 9px 11px;
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      list-style: none;
+    }
+
+    .source-detail summary::-webkit-details-marker,
+    details.members summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .source-detail summary::after,
+    details.members summary::after {
+      content: "+";
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--panel-soft);
+      flex: 0 0 auto;
+    }
+
+    .source-detail[open] summary::after,
+    details.members[open] summary::after {
+      content: "-";
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: minmax(120px, .34fr) minmax(0, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .detail-label,
+    .detail-value {
+      padding: 9px 11px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      background: #f2f6f8;
+      font-weight: 700;
+    }
+
+    .detail-value {
+      color: var(--ink);
+      white-space: pre-wrap;
+    }
+
+    details.members {
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 14px 14px;
+    }
+
+    .member {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+      min-width: 0;
+    }
+
+    .member strong {
+      display: block;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .member span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .source-item {
+      padding: 14px;
+      border-left: 5px solid var(--accent-3);
+    }
+
+    .source-item strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .empty {
+      display: none;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        align-items: flex-start;
+      }
+
+      .navlinks {
+        display: none;
+      }
+
+      .kpis,
+      .two-col,
+      .three-col,
+      .one-col,
+      .timeline,
+      .source-grid,
+      .member-grid,
+      .overall-summary,
+      .summary-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .project {
+        grid-template-columns: 38px minmax(0, 1fr);
+      }
+
+      .progress-panel {
+        grid-column: 1 / -1;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-label {
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav,
+      main,
+      .hero-inner {
+        width: min(100% - 22px, var(--container));
+      }
+
+      .hero {
+        min-height: 230px;
+      }
+
+      .hero-inner {
+        padding: 28px 0 22px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .card-pad,
+      .project {
+        padding: 12px;
+      }
+
+      .kpi .label {
+        min-height: 0;
+      }
+
+      .kpi .value {
+        font-size: 28px;
+      }
+
+      .ordinal {
+        width: 36px;
+        height: 36px;
+      }
+
+      .chart,
+      .chart.owner-chart {
+        height: 230px;
+      }
+
+      .chip {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Điều hướng dashboard">
+      <div class="brand">
+        <strong>Tổ công tác số 5 - GPMB</strong>
+        <span>Quyết định 361-QĐ/TU ngày 06/7/2026</span>
+      </div>
+      <div class="navlinks">
+        <a href="#tong-quan">Tổng quan</a>
+        <a href="#bieu-do">Biểu đồ</a>
+        <a href="#tra-cuu">Tra cứu</a>
+        <a href="#nguon">Nguồn</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Chiến dịch 45 ngày đêm · Theo dõi chỉ đạo đôn đốc</div>
+      <h1>Dashboard theo dõi giải phóng mặt bằng các dự án - Tổ công tác số 5</h1>
+      <p class="subtitle">Phục vụ tra cứu nhanh danh mục dự án, chủ đầu tư, nhóm nguồn vốn, thành viên Tổ công tác và khung điều hành xử lý khó khăn vướng mắc.</p>
+    </div>
+  </div>
+
+  <main>
+    <section id="tong-quan">
+      <div class="section-head">
+        <div>
+          <h2>Tổng Quan</h2>
+          <p class="hint">Tổ trưởng: đồng chí Y Giang Gry Niê Knơng · Tổ phó: đồng chí Y Nhuân Byă · Cơ quan thường trực: Sở Nông nghiệp và Môi trường.</p>
+        </div>
+        <span class="chip">Dữ liệu tiến độ: cập nhật theo báo cáo 10/7/2026</span>
+      </div>
+      <div class="grid kpis">
+        <article class="card card-pad kpi">
+          <div class="label">Dự án thuộc Tổ công tác số 5</div>
+          <div class="value" id="kpi-total">9</div>
+          <div class="note">Theo phụ lục Quyết định 361-QĐ/TU</div>
+        </article>
+        <article class="card card-pad kpi">
+          <div class="label">Dự án vốn ngân sách nhà nước</div>
+          <div class="value" id="kpi-public">8</div>
+          <div class="note">Nhóm A trong phụ lục</div>
+        </article>
+        <article class="card card-pad kpi">
+          <div class="label">Dự án ngoài ngân sách nhà nước</div>
+          <div class="value" id="kpi-private">1</div>
+          <div class="note">Nhóm B trong phụ lục</div>
+        </article>
+        <article class="card card-pad kpi">
+          <div class="label">Mục tiêu GPMB theo kế hoạch</div>
+          <div class="value">90-95%</div>
+          <div class="note">Phấn đấu theo từng dự án</div>
+        </article>
+      </div>
+
+      <details class="card members">
+        <summary>Danh sách thành viên Tổ công tác số 5</summary>
+        <div class="member-grid" id="memberGrid"></div>
+      </details>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <h2>Khung Điều Hành 45 Ngày</h2>
+          <p class="hint">Theo Kế hoạch 295/KH-UBND ngày 07/7/2026, thực hiện liên tục kể cả ngày nghỉ khi cần thiết.</p>
+        </div>
+      </div>
+      <div class="timeline">
+        <article class="card card-pad phase">
+          <strong>Ngày 1-10 · Rà soát</strong>
+          <span class="date-chip">07/7/2026 - 16/7/2026</span>
+          <ul>
+            <li>Rà soát toàn bộ dự án.</li>
+            <li>Xây dựng kế hoạch chi tiết từng dự án.</li>
+            <li>Xác định diện tích đã bàn giao, diện tích còn vướng.</li>
+            <li>Phân loại nguyên nhân vướng mắc.</li>
+          </ul>
+        </article>
+        <article class="card card-pad phase">
+          <strong>Ngày 11-30 · Tập trung xử lý</strong>
+          <span class="date-chip">17/7/2026 - 05/8/2026</span>
+          <ul>
+            <li>Kiểm đếm và phê duyệt phương án.</li>
+            <li>Chi trả bồi thường, hỗ trợ, tái định cư.</li>
+            <li>Bàn giao mặt bằng từng phần.</li>
+            <li>Giải quyết khiếu nại, kiến nghị.</li>
+          </ul>
+        </article>
+        <article class="card card-pad phase">
+          <strong>Ngày 31-45 · Hoàn tất</strong>
+          <span class="date-chip">06/8/2026 - 20/8/2026</span>
+          <ul>
+            <li>Hoàn thành các chỉ tiêu còn lại.</li>
+            <li>Xử lý trường hợp tồn đọng.</li>
+            <li>Tổng hợp kết quả, đánh giá và báo cáo Ban Chỉ đạo.</li>
+          </ul>
+        </article>
+        <article class="card card-pad phase">
+          <strong>Nguyên tắc theo dõi</strong>
+          <span class="date-chip">Cập nhật hằng tuần</span>
+          <ul>
+            <li>Bám phương châm 6 rõ: người, việc, trách nhiệm, thời gian, kết quả, thẩm quyền.</li>
+            <li>Khó khăn phát sinh phải được xử lý hoặc báo cáo cấp có thẩm quyền trong thời hạn quy định.</li>
+            <li>Ưu tiên tra cứu theo từng dự án, chủ đầu tư và nhóm nguồn vốn.</li>
+            <li>Báo cáo định kỳ trước 11 giờ thứ Năm hằng tuần.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="bieu-do">
+      <div class="section-head">
+        <div>
+          <h2>Biểu Đồ Theo Dõi</h2>
+          <p class="hint">Biểu đồ phản ánh cơ cấu danh mục, chủ đầu tư và dữ liệu tiến độ đã có trong kế hoạch chi tiết Tổ 5.</p>
+        </div>
+      </div>
+      <div class="grid one-col">
+        <article class="card card-pad">
+          <div class="chart-title">
+            <h3>Dự án theo chủ đầu tư và nguồn vốn</h3>
+            <div class="legend"><span><i class="dot" style="background:var(--accent)"></i> Ngân sách</span><span><i class="dot" style="background:var(--accent-2)"></i> Ngoài ngân sách</span></div>
+          </div>
+          <svg id="ownerFundChart" class="chart owner-fund-chart" viewBox="0 0 760 260" role="img" aria-label="Biểu đồ dự án theo chủ đầu tư và nguồn vốn"></svg>
+        </article>
+      </div>
+
+      <div class="overall-summary">
+        <article class="card card-pad summary-lead">
+          <strong>Tóm tắt tiến độ chung</strong>
+          <p class="hint">Thực hiện Quyết định số 361-QĐ/TU ngày 06/7/2026 của Ban Thường vụ Tỉnh ủy và Kế hoạch số 295/KH-UBND ngày 07/7/2026 của UBND tỉnh, Sở Nông nghiệp và Môi trường đã đề nghị rà soát, báo cáo tiến độ thực hiện công tác giải phóng mặt bằng, khó khăn, vướng mắc đối với các dự án Tổ công tác số 05 theo dõi, chỉ đạo. Qua rà soát, các dự án còn vướng các nội dung về xác nhận nguồn gốc đất, quy chủ sử dụng đất, kiểm kê, chỉnh lý thông tin thửa đất, lập, thẩm định, phê duyệt phương án bồi thường, hỗ trợ, tái định cư; một số trường hợp chưa nhận tiền bồi thường, hỗ trợ, chưa bàn giao mặt bằng hoặc còn vướng thủ tục thanh lý tài sản trên đất. Sở Nông nghiệp và Môi trường đề nghị các sở, ngành, địa phương, chủ đầu tư và đơn vị liên quan khẩn trương triển khai thực hiện đúng tiến độ, thời gian; báo cáo lần 01 trước 11 giờ 00 ngày 13/7/2026, báo cáo định kỳ trước 11 giờ thứ Năm hằng tuần và báo cáo đột xuất ngay khi phát sinh.</p>
+        </article>
+        <article class="card card-pad">
+          <div class="summary-metrics">
+            <div class="mini-metric"><span>Dự án theo dõi</span><b>9</b></div>
+            <div class="mini-metric"><span>Có tỷ lệ %</span><b>1/9</b></div>
+            <div class="mini-metric"><span>Hạn 14/8/2026</span><b>8</b></div>
+            <div class="mini-metric"><span>Hạn 15/7/2026</span><b>1</b></div>
+          </div>
+          <div class="chart-title summary-chart-title">
+            <h3>Trạng thái dữ liệu tiến độ GPMB</h3>
+            <div class="legend"><span><i class="dot" style="background:#7a8060"></i> Đang rà soát</span></div>
+          </div>
+          <svg id="progressDataChart" class="chart summary-status-chart" viewBox="0 0 520 180" role="img" aria-label="Biểu đồ trạng thái dữ liệu tiến độ GPMB"></svg>
+        </article>
+      </div>
+
+      <div class="grid one-col" style="margin-top:12px">
+        <article class="card card-pad">
+          <div class="chart-title">
+            <h3>Tỷ lệ % tiến độ GPMB các dự án</h3>
+            <div class="legend"><span><i class="dot" style="background:var(--accent)"></i> Có tỷ lệ %</span><span><i class="dot" style="background:#7a8060"></i> Đang rà soát</span></div>
+          </div>
+          <svg id="progressPercentChart" class="chart progress-percent-chart" viewBox="0 0 900 340" role="img" aria-label="Biểu đồ tỷ lệ phần trăm tiến độ GPMB các dự án"></svg>
+        </article>
+      </div>
+    </section>
+
+    <section id="tra-cuu">
+      <div class="section-head">
+        <div>
+          <h2>Tra Cứu Theo Dự Án</h2>
+          <p class="hint">Tìm nhanh theo tên dự án, chủ đầu tư, nhóm nguồn vốn, cơ quan chủ trì, khó khăn hoặc thời hạn bàn giao mặt bằng.</p>
+        </div>
+      </div>
+      <div class="toolbar" role="search">
+        <label class="sr-only" for="searchInput">Tìm kiếm dự án</label>
+        <input id="searchInput" class="searchbox" type="search" placeholder="Tìm tên dự án, chủ đầu tư...">
+        <label class="sr-only" for="fundFilter">Lọc nguồn vốn</label>
+        <select id="fundFilter">
+          <option value="">Tất cả nguồn vốn</option>
+          <option value="Ngân sách nhà nước">Ngân sách nhà nước</option>
+          <option value="Ngoài ngân sách nhà nước">Ngoài ngân sách nhà nước</option>
+        </select>
+        <label class="sr-only" for="ownerFilter">Lọc chủ đầu tư</label>
+        <select id="ownerFilter">
+          <option value="">Tất cả chủ đầu tư</option>
+        </select>
+      </div>
+      <div id="projectList" class="project-list"></div>
+      <div id="emptyState" class="empty">Không có dự án phù hợp với bộ lọc hiện tại.</div>
+    </section>
+
+    <section id="nguon">
+      <div class="section-head">
+        <div>
+          <h2>Nguồn Và Phạm Vi Dữ Liệu</h2>
+          <p class="hint">Thông tin được nhập từ các tài liệu đính kèm và kế hoạch chi tiết từng dự án của Tổ công tác số 05.</p>
+        </div>
+      </div>
+      <div class="source-grid">
+        <article class="card source-item">
+          <strong>Quyết định 361-QĐ/TU ngày 06/7/2026</strong>
+          <p class="hint">Thành lập Tổ công tác số 05 và phụ lục danh mục 9 công trình, dự án do Tổ chỉ đạo, đôn đốc.</p>
+        </article>
+        <article class="card source-item">
+          <strong>Kế hoạch 295/KH-UBND ngày 07/7/2026</strong>
+          <p class="hint">Triển khai Chiến dịch 45 ngày đêm đẩy nhanh tiến độ GPMB các dự án trên địa bàn tỉnh.</p>
+        </article>
+        <article class="card source-item">
+          <strong>Kế hoạch chi tiết từng dự án Tổ 5</strong>
+          <p class="hint">Cập nhật tiến độ, khó khăn, hướng xử lý, cơ quan chủ trì/phối hợp và thời hạn bàn giao mặt bằng theo báo cáo ngày 10/7/2026.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const members = [
+      ["Y Giang Gry Niê Knơng", "Tổ trưởng - Phó Bí thư Tỉnh ủy, Chủ tịch Ủy ban Mặt trận Tổ quốc Việt Nam tỉnh"],
+      ["Y Nhuân Byă", "Tổ phó - Tỉnh uỷ viên, Phó Chủ tịch UBND tỉnh"],
+      ["Phan Thị Hà Phước", "Thành viên - Trưởng ban Kinh tế - Ngân sách HĐND tỉnh"],
+      ["Lê Bá Cảnh", "Thành viên - Phó Chủ tịch Ủy ban MTTQ Việt Nam tỉnh"],
+      ["Võ Duy Tuấn", "Thành viên - Phó Giám đốc Công an tỉnh"],
+      ["Nguyễn Hoàng Lâm", "Thành viên - Phó Chánh Thanh tra tỉnh"],
+      ["Võ Đình Tiến", "Thành viên - Phó Giám đốc Sở Tài chính"],
+      ["Lê Công Du", "Thành viên - Phó Giám đốc Sở Xây dựng"],
+      ["Lê Minh Đức", "Thành viên - Phó Giám đốc Sở Nông nghiệp và Môi trường"],
+      ["Phan Thị Hoa", "Thành viên - Phó Giám đốc Sở Tư pháp"],
+      ["Đoàn Ngọc Thượng", "Thành viên - Phó Chánh Văn phòng UBND tỉnh"],
+      ["Vũ Thanh Hưng", "Thành viên - Giám đốc Trung tâm phát triển quỹ đất tỉnh"],
+      ["Trần Tiến Đông", "Thành viên - Giám đốc Ban quản lý dự án ĐTXD công trình Giao thông và Nông nghiệp phát triển nông thôn tỉnh"],
+      ["Võ Văn Lợi", "Thành viên - Phó Giám đốc Ban quản lý dự án ĐTXD công trình Dân dụng và Công nghiệp tỉnh"],
+      ["Nguyễn Hữu Toàn", "Thành viên - Phó Giám đốc Ban quản lý các dự án đầu tư xây dựng khu vực phía Đông tỉnh"]
+    ];
+
+    const projects = [
+      {
+        order: 1,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Nâng cấp, mở rộng đường giao thông Buôn M’Rê - Buôn Niêng (giai đoạn 1)",
+        owner: "Ban quản lý dự án ĐTXD Buôn Ma Thuột",
+        lead: "UBND xã Hòa Phú chủ trì, phối hợp với Ban Quản lý dự án ĐTXD Buôn Ma Thuột",
+        progress: 90,
+        progressText: "Đã hoàn thành khoảng 90%; còn 293 thửa đất đang lập phương án bồi thường.",
+        issue: "Còn 293 thửa đất phải hoàn thiện hồ sơ xác minh, lập và phê duyệt phương án bồi thường, hỗ trợ.",
+        plan: "UBND xã Hòa Phú xác nhận nguồn gốc đất, giải quyết hồ sơ tồn đọng và rà soát hồ sơ ban hành thông báo thu hồi đất trước 18/7/2026. Ban QLDA ĐTXD Buôn Ma Thuột hoàn thiện hồ sơ, lập phương án BTHT đối với 293 thửa trước 30/7/2026. UBND xã Hòa Phú thẩm định, phê duyệt phương án BTHT ngày 08/8/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 2,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Xây dựng đường Trần Phú nối dài và hạ tầng kỹ thuật (GĐ 1)",
+        owner: "Ban quản lý các DA ĐTXD khu vực phía Đông tỉnh Đắk Lắk",
+        lead: "UBND phường Tuy Hòa, Văn phòng Đăng ký đất đai tỉnh và Ban C",
+        progress: null,
+        progressText: "Còn 03/07 đối tượng có nhà ở trên đất chưa nhận tiền BTHT; còn 64/83 thửa đất chưa phê duyệt phương án BTHT; 07/09 hộ gia đình chưa điều chỉnh thông tin thửa đất.",
+        issue: "UBND phường Tuy Hòa chưa cung cấp đầy đủ thông tin nguồn gốc, quá trình sử dụng đất và thông tin liên quan về người sử dụng đất.",
+        plan: "UBND phường Tuy Hòa cung cấp thông tin nguồn gốc đất, quy chủ các trường hợp còn lại đến ngày 22/7/2026. Ban C hoàn thành kiểm kê và trình phê duyệt phương án bồi thường đến ngày 04/8/2026. Các trường hợp không nhận tiền BTHT thực hiện theo khoản 4 Điều 94 Luật Đất đai 2024 và tổ chức bảo vệ thi công từ 10/7/2026. Phê duyệt phương án BTHT cho 64 trường hợp Ban C đã trình thẩm định đến ngày 20/7/2026. Văn phòng Đăng ký đất đai phối hợp chỉnh lý biến động cho 07 hộ dân sai sót thông tin thửa đất.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 3,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Công trình thủy lợi hồ chứa nước Ea Súp thượng, hợp phần Kênh chính Tây - Gói thầu số 41A",
+        owner: "Ban quản lý dự án ĐTXD Buôn Ma Thuột",
+        lead: "Sở Tài chính, UBND xã Ia Rvê và Ban Buôn Ma Thuột",
+        progress: null,
+        progressText: "Chưa ban hành lại thông báo thu hồi đất và kế hoạch kiểm đếm; nguồn gốc đất tạm giao không có quyết định giao đất.",
+        issue: "Vướng thủ tục thông báo thu hồi đất, kế hoạch kiểm đếm và hồ sơ nguồn gốc đất tạm giao.",
+        plan: "UBND xã Ia Rvê rà soát hồ sơ, ban hành thông báo thu hồi đất theo điểm c khoản 13 Điều 13 Nghị quyết 254/NQ-QH15 và ban hành lại thông báo, kế hoạch thu hồi đất đến ngày 18/7/2026. Ban Buôn Ma Thuột hoàn thành kiểm kê, trình phê duyệt phương án bồi thường đến ngày 30/7/2026. UBND xã Ia Rvê thẩm định, phê duyệt phương án BTHT ngày 08/8/2026. Sở Tài chính hướng dẫn chủ đầu tư điều chỉnh gia hạn tiến độ thực hiện dự án đến ngày 15/7/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 4,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Công trình thủy lợi hồ chứa nước Ea Súp thượng, hợp phần Kênh chính Tây - Gói thầu số 41B",
+        owner: "Ban quản lý dự án ĐTXD Buôn Ma Thuột",
+        lead: "Sở Tài chính, UBND xã Ia Rvê và Ban Buôn Ma Thuột",
+        progress: null,
+        progressText: "Chưa ban hành lại thông báo thu hồi đất và kế hoạch kiểm đếm; nguồn gốc đất tạm giao không có quyết định giao đất.",
+        issue: "Vướng thủ tục thông báo thu hồi đất, kế hoạch kiểm đếm và hồ sơ nguồn gốc đất tạm giao.",
+        plan: "UBND xã Ia Rvê rà soát hồ sơ, ban hành thông báo thu hồi đất theo điểm c khoản 13 Điều 13 Nghị quyết 254/NQ-QH15 và ban hành lại thông báo, kế hoạch thu hồi đất đến ngày 18/7/2026. Ban Buôn Ma Thuột hoàn thành kiểm kê, trình phê duyệt phương án bồi thường đến ngày 30/7/2026. UBND xã Ia Rvê thẩm định, phê duyệt phương án BTHT ngày 08/8/2026. Sở Tài chính hướng dẫn chủ đầu tư điều chỉnh gia hạn tiến độ thực hiện dự án đến ngày 15/7/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 5,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Kè chống sạt lở bờ tả sông Ba kết hợp phát triển hạ tầng đô thị đoạn qua thôn Vĩnh Phú",
+        owner: "Ban quản lý các DA ĐTXD khu vực phía Đông tỉnh Đắk Lắk",
+        lead: "Sở Xây dựng, UBND phường Tuy Hòa, UBND xã Phú Hòa 1 và Ban C",
+        progress: null,
+        progressText: "Còn 06 hộ tại xã Phú Hòa 1 chưa quy chủ nguồn gốc đất; phường Tuy Hòa chưa cung cấp thông tin quy chủ 58/64 thửa đất; phương án BTHT số 109/PA-BQL đã trình nhưng chưa phê duyệt.",
+        issue: "Một số hộ dân sử dụng đất bãi bồi ven sông từ năm 1990 để trồng cây hàng năm, không có văn bản chấp thuận và không bị lập biên bản xử lý vi phạm.",
+        plan: "UBND phường Tuy Hòa và UBND xã Phú Hòa 1 hoàn thành thông tin quy chủ trước 22/7/2026. Ban C hoàn thành kiểm kê, trình phê duyệt phương án bồi thường đến ngày 04/8/2026. UBND xã Phú Hòa 1 và UBND phường Tuy Hòa thẩm định, phê duyệt phương án BTHT ngày 12/8/2026. Sở Xây dựng hướng dẫn Công ty cấp thoát nước phương án di dời công trình trước 20/7/2026. Đối với đất bãi bồi, địa phương và Ban C căn cứ Điều 95, Điều 138 Luật Đất đai 2024 và Điều 5 Nghị định 88/NĐ-CP để thực hiện.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 6,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Hợp phần bồi thường, GPMB, di dân tái định cư Dự án Krông Pách Thượng giai đoạn 1",
+        owner: "Ban quản lý dự án Đầu tư XDCT Giao thông và Nông nghiệp phát triển nông thôn tỉnh",
+        lead: "UBND xã Ea Ô và Ban A",
+        progress: null,
+        progressText: "Có 40 hộ đã phê duyệt phương án BTHT nhưng không chịu nhận tiền bồi thường; có khiếu kiện tại Tòa án với 39 hộ dân.",
+        issue: "Vướng nhận tiền bồi thường, hỗ trợ và bàn giao mặt bằng sau khi phương án đã được phê duyệt.",
+        plan: "UBND xã Ea Ô thẩm định, phê duyệt phương án điều chỉnh theo các bản án đã có hiệu lực thi hành và thực hiện theo khoản 4 Điều 94 Luật Đất đai 2024. Xây dựng kế hoạch và tổ chức bảo vệ thi công từ ngày 10/7/2026 đối với trường hợp không nhận tiền bồi thường, hỗ trợ và không bàn giao mặt bằng; hoàn thành trước ngày 30/7/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 7,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Dự án Hồ chứa nước Krông Pách Thượng giai đoạn 2",
+        owner: "Ban quản lý dự án Đầu tư XDCT Giao thông và Nông nghiệp phát triển nông thôn tỉnh",
+        lead: "UBND các xã Ea Ô, Ea Păl, Ea Kar, Cư Yang, Ea Kly, Vụ Bổn; Văn phòng Đăng ký đất đai tỉnh và Ban QLDA Ea Kar",
+        progress: null,
+        progressText: "Còn 12 ha phải đo đạc chỉnh lý điều chỉnh trích lục; nhiều địa bàn còn vướng xác định nguồn gốc đất, kiểm đếm, lập/công khai phương án BTHT và trình thẩm định.",
+        issue: "Ea Kar còn các phần việc về xác nhận nguồn gốc, kiểm đếm và lập phương án; Ea Păl còn kiểm đếm, xác định nguồn gốc, lập và phê duyệt phương án; Cư Yang, Ea Ô, Ea Kly, Vụ Bổn còn khối lượng lập/công khai phương án và xác nhận nguồn gốc đất.",
+        plan: "UBND các xã Ea Ô, Ea Păl, Ea Kar, Cư Yang, Ea Kly, Vụ Bổn và Ban QLDA Ea Kar hoàn thành xác định nguồn gốc đất và tài sản gắn liền với đất thu hồi đến ngày 22/7/2026. Sau khi có hồ sơ quy chủ, Ban Ea Kar lập phương án BTHT trình UBND cấp xã phê duyệt ngày 05/8/2026. Các xã thẩm định phương án BTHT do Ban Ea Kar trình ngày 13/8/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 8,
+        group: "A",
+        fund: "Ngân sách nhà nước",
+        name: "Đường Nguyễn Hữu Thọ (đoạn phía Tây Bệnh viện đa khoa tỉnh đến đường Nguyễn Trãi và đoạn từ đường Lê Thành Phương nối dài đến đường Nguyễn Tất Thành)",
+        owner: "Ban quản lý các DA ĐTXD khu vực phía Đông tỉnh Đắk Lắk",
+        lead: "UBND các phường Bình Kiến, Tuy Hòa và Ban C",
+        progress: null,
+        progressText: "Phường Tuy Hòa còn 54/86 hộ dân chưa quy chủ nguồn gốc đất, 18 hộ đã quy chủ nhưng cần rà soát lại và chưa cung cấp danh sách bố trí tái định cư; phường Bình Kiến còn 18/109 hộ dân chưa quy chủ nguồn gốc đất và chưa xét trường hợp đủ điều kiện bố trí tái định cư.",
+        issue: "Vướng quy chủ nguồn gốc đất, rà soát thông tin và xét điều kiện bố trí tái định cư.",
+        plan: "UBND các phường Bình Kiến, Tuy Hòa hoàn thành cung cấp thông tin quy chủ, xác định nguồn gốc đất cho chủ đầu tư trước 22/7/2026. Ban C hoàn thành kiểm kê và trình phê duyệt phương án bồi thường đến ngày 04/8/2026. UBND các phường Bình Kiến, Tuy Hòa thẩm định các phương án Ban C đã trình ngày 12/8/2026.",
+        deadline: "Chi trả tiền và giao mặt bằng trước ngày 14/8/2026"
+      },
+      {
+        order: 9,
+        group: "B",
+        fund: "Ngoài ngân sách nhà nước",
+        name: "Dự án Đầu tư xây dựng và kinh doanh kết cấu hạ tầng Khu công nghiệp Phú Xuân",
+        owner: "Công ty cổ phần DVP Đắk Lắk",
+        lead: "Sở Tài chính và Công ty DVP",
+        progress: null,
+        progressText: "Vướng mắc thanh lý phần tài sản trên đất là cây cao su; đã thực hiện bồi thường nhưng còn thủ tục thanh lý tài sản của Nhà nước.",
+        issue: "Thủ tục thanh lý tài sản Nhà nước đối với cây cao su trên đất bị ảnh hưởng của dự án.",
+        plan: "Sở Tài chính hướng dẫn Công ty Cao su và các đơn vị liên quan thanh lý phần tài sản của Nhà nước trên đất bị ảnh hưởng theo quy định.",
+        deadline: "Trước ngày 15/7/2026"
+      }
+    ];
+
+    const escapeHtml = value => String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+    const colors = {
+      public: "#2f6f4e",
+      private: "#b7791f",
+      unknown: "#7a8060",
+      text: "#17231d"
+    };
+
+    function renderMembers() {
+      document.getElementById("memberGrid").innerHTML = members.map(([name, title]) => `
+        <div class="member"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(title)}</span></div>
+      `).join("");
+    }
+
+    function detailRows(project) {
+      return [
+        ["Nhóm", project.group === "A" ? "Dự án sử dụng vốn ngân sách nhà nước" : "Dự án sử dụng nguồn vốn ngoài ngân sách nhà nước"],
+        ["Nguồn vốn", project.fund],
+        ["Chủ đầu tư", project.owner],
+        ["Cơ quan chủ trì/phối hợp", project.lead],
+        ["Tiến độ GPMB", project.progressText],
+        ["Khó khăn, vướng mắc", project.issue],
+        ["Hướng xử lý / kế hoạch thực hiện", project.plan],
+        ["Thời hạn bàn giao mặt bằng", project.deadline]
+      ].map(([label, value]) => `
+        <div class="detail-label">${escapeHtml(label)}</div>
+        <div class="detail-value">${escapeHtml(value)}</div>
+      `).join("");
+    }
+
+    function populateOwnerFilter() {
+      const select = document.getElementById("ownerFilter");
+      [...new Set(projects.map(project => project.owner))]
+        .sort((a, b) => a.localeCompare(b, "vi"))
+        .forEach(owner => {
+          const option = document.createElement("option");
+          option.value = owner;
+          option.textContent = owner;
+          select.appendChild(option);
+        });
+    }
+
+    function deadlineLabel(project) {
+      const normalized = String(project.deadline || "").trim()
+        .replace(/^Chi trả tiền\s+và\s+giao\s+Mặt\s+bằng\s+/i, "")
+        .replace(/^Chi trả tiền\s+và\s+giao\s+mặt\s+bằng\s+/i, "")
+        .replace(/^Trước ngày/i, "trước ngày");
+      return `Mốc yêu cầu chi trả và bàn giao mặt bằng ${normalized}`;
+    }
+
+    function renderProjects() {
+      const list = document.getElementById("projectList");
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const fund = document.getElementById("fundFilter").value;
+      const owner = document.getElementById("ownerFilter").value;
+
+      const filtered = projects.filter(project => {
+        const haystack = `${project.name} ${project.owner} ${project.fund} ${project.lead} ${project.progressText} ${project.issue} ${project.plan} ${project.deadline}`.toLowerCase();
+        return (!query || haystack.includes(query))
+          && (!fund || project.fund === fund)
+          && (!owner || project.owner === owner);
+      });
+
+      list.innerHTML = filtered.map(project => {
+        const fundClass = project.fund === "Ngoài ngân sách nhà nước" ? " private-fund" : "";
+        const hasRate = Number.isFinite(project.progress);
+        const progressLabel = hasRate
+          ? `${project.progress.toLocaleString("vi-VN", { maximumFractionDigits: 1 })}%`
+          : "Đang rà soát";
+        const progressName = hasRate ? "Tỷ lệ GPMB đã tổng hợp" : "Tình trạng số liệu GPMB";
+        const progressStatus = hasRate
+          ? "Tỷ lệ hoàn thành GPMB theo báo cáo; tiếp tục theo dõi các đầu việc còn lại và mốc bàn giao."
+          : "Đang rà soát, cập nhật số liệu chi tiết về hộ dân, thửa đất, diện tích, phương án BTHT và kết quả chi trả.";
+        const progressWidth = hasRate ? `${Math.max(4, Math.min(project.progress, 100))}%` : "100%";
+        return `
+          <article class="card project">
+            <div class="ordinal">${project.order}</div>
+            <div class="project-title">
+              <h3>${escapeHtml(project.name)}</h3>
+              <div class="meta">
+                <span class="pill${fundClass}">${escapeHtml(project.fund)}</span>
+                <span class="pill">${escapeHtml(project.owner)}</span>
+                <span class="pill">${escapeHtml(project.lead)}</span>
+              </div>
+              <div class="detail-box"><strong>Hiện trạng:</strong> ${escapeHtml(project.progressText)}</div>
+              <div class="detail-box"><strong>Vướng mắc:</strong> ${escapeHtml(project.issue)}</div>
+              <details class="source-detail">
+                <summary>Chi tiết dự án</summary>
+                <div class="detail-grid">${detailRows(project)}</div>
+              </details>
+            </div>
+            <div class="progress-panel ${hasRate ? "has-rate" : ""}" aria-label="Tiến độ GPMB">
+              <div class="progress-row"><span class="progress-label">${progressName}</span><strong>${progressLabel}</strong></div>
+              <div class="bar"><div class="fill ${hasRate ? "" : "pending"}" style="--p:${progressWidth}"></div></div>
+              <div class="deadline">${escapeHtml(deadlineLabel(project))}</div>
+              <div class="status">${progressStatus}</div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      document.getElementById("emptyState").style.display = filtered.length ? "none" : "block";
+    }
+
+    function groupedCounts(key) {
+      return [...projects.reduce((map, project) => {
+        map.set(project[key], (map.get(project[key]) || 0) + 1);
+        return map;
+      }, new Map())].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "vi"));
+    }
+
+    function renderFundChart() {
+      const svg = document.getElementById("fundChart");
+      const publicCount = projects.filter(project => project.fund === "Ngân sách nhà nước").length;
+      const privateCount = projects.length - publicCount;
+      const total = projects.length;
+      const publicWidth = Math.round(publicCount / total * 360);
+      const privateWidth = 360 - publicWidth;
+      svg.innerHTML = `
+        <rect x="80" y="80" width="360" height="38" rx="19" fill="#e6edf3"></rect>
+        <rect x="80" y="80" width="${publicWidth}" height="38" rx="19" fill="#2f6f4e"></rect>
+        <rect x="${80 + publicWidth}" y="80" width="${privateWidth}" height="38" rx="19" fill="#b7791f"></rect>
+        <text x="80" y="58" font-size="15" font-weight="700" fill="#17231d">Tổng số dự án: ${total}</text>
+        <text x="80" y="152" font-size="13" fill="#17231d">Ngân sách nhà nước: ${publicCount} dự án</text>
+        <text x="80" y="176" font-size="13" fill="#17231d">Ngoài ngân sách nhà nước: ${privateCount} dự án</text>
+        <text x="440" y="152" text-anchor="end" font-size="13" font-weight="700" fill="#2f6f4e">${Math.round(publicCount / total * 100)}%</text>
+        <text x="440" y="176" text-anchor="end" font-size="13" font-weight="700" fill="#b7791f">${Math.round(privateCount / total * 100)}%</text>
+      `;
+    }
+
+    function clipLabel(label, max) {
+      return label.length > max ? `${label.slice(0, max - 1)}…` : label;
+    }
+
+    function shortName(name) {
+      return name
+        .replace("Dự án Đầu tư xây dựng và kinh doanh kết cấu hạ tầng ", "")
+        .replace("Công trình thủy lợi hồ chứa nước ", "")
+        .replace("Hợp phần bồi thường, GPMB, di dân tái định cư ", "")
+        .replace("Hợp phần bồi thường, giải phóng mặt bằng, di dân và tái định cư thuộc ", "")
+        .replace("Nâng cấp, mở rộng đường giao thông ", "")
+        .replace("Xây dựng ", "");
+    }
+
+    function renderOwnerFundChart() {
+      const svg = document.getElementById("ownerFundChart");
+      const counts = [...projects.reduce((map, project) => {
+        const item = map.get(project.owner) || { owner: project.owner, public: 0, private: 0 };
+        if (project.fund === "Ngoài ngân sách nhà nước") item.private += 1;
+        else item.public += 1;
+        map.set(project.owner, item);
+        return map;
+      }, new Map()).values()].sort((a, b) => (b.public + b.private) - (a.public + a.private) || a.owner.localeCompare(b.owner, "vi"));
+      const max = Math.max(...counts.map(item => item.public + item.private));
+      const rows = counts.map((item, index) => {
+        const y = 42 + index * 44;
+        const total = item.public + item.private;
+        const totalWidth = Math.max(24, total / max * 300);
+        const publicWidth = total ? totalWidth * item.public / total : 0;
+        const privateWidth = totalWidth - publicWidth;
+        return `
+          <text x="22" y="${y}" font-size="12" fill="${colors.text}" font-weight="700">${escapeHtml(clipLabel(item.owner, 58))}</text>
+          <rect x="390" y="${y - 15}" width="300" height="19" rx="7" fill="#e7edf2"></rect>
+          <rect x="390" y="${y - 15}" width="${publicWidth}" height="19" rx="7" fill="${colors.public}"></rect>
+          <rect x="${390 + publicWidth}" y="${y - 15}" width="${privateWidth}" height="19" rx="7" fill="${colors.private}"></rect>
+          <text x="${Math.min(684, 400 + totalWidth)}" y="${y - 1}" font-size="12" fill="${totalWidth > 34 ? "#fff" : colors.text}" font-weight="700" text-anchor="${totalWidth > 34 ? "end" : "start"}">${total}</text>
+        `;
+      }).join("");
+      svg.innerHTML = `<rect x="0" y="0" width="760" height="260" fill="transparent"></rect>${rows}`;
+    }
+
+    function renderProgressDataChart() {
+      const svg = document.getElementById("progressDataChart");
+      const known = projects.filter(project => Number.isFinite(project.progress)).length;
+      const unknown = projects.length - known;
+      const max = projects.length;
+      const knownWidth = known / max * 340;
+      const unknownWidth = unknown / max * 340;
+      svg.innerHTML = `
+        <rect x="0" y="0" width="520" height="180" fill="transparent"></rect>
+        <text x="70" y="44" font-size="13" fill="${colors.text}" font-weight="700">Có tỷ lệ % GPMB</text>
+        <rect x="70" y="60" width="340" height="28" rx="8" fill="#e7edf2"></rect>
+        <rect x="70" y="60" width="${knownWidth}" height="28" rx="8" fill="${colors.public}"></rect>
+        <text x="432" y="79" font-size="13" fill="${colors.text}" font-weight="700">${known}/${max}</text>
+        <text x="70" y="126" font-size="13" fill="${colors.text}" font-weight="700">Đang rà soát, cập nhật số liệu</text>
+        <rect x="70" y="142" width="340" height="28" rx="8" fill="#e7edf2"></rect>
+        <rect x="70" y="142" width="${unknownWidth}" height="28" rx="8" fill="${colors.unknown}"></rect>
+        <text x="432" y="161" font-size="13" fill="${colors.text}" font-weight="700">${unknown}/${max}</text>
+      `;
+    }
+
+    function renderProgressPercentChart() {
+      const svg = document.getElementById("progressPercentChart");
+      const sorted = [...projects].sort((a, b) => {
+        const aKnown = Number.isFinite(a.progress);
+        const bKnown = Number.isFinite(b.progress);
+        if (aKnown && bKnown) return b.progress - a.progress || a.order - b.order;
+        if (aKnown) return -1;
+        if (bKnown) return 1;
+        return a.order - b.order;
+      });
+      const rows = sorted.map((project, index) => {
+        const y = 30 + index * 34;
+        const known = Number.isFinite(project.progress);
+        const barWidth = 300;
+        const width = known ? Math.max(4, project.progress / 100 * barWidth) : barWidth;
+        const fill = known ? colors.public : colors.unknown;
+        const label = known
+          ? `${project.progress.toLocaleString("vi-VN", { maximumFractionDigits: 1 })}%`
+          : "Đang rà soát";
+        return `
+          <text x="22" y="${y}" font-size="11.5" fill="${colors.text}" font-weight="700">${escapeHtml(clipLabel(shortName(project.name), 62))}</text>
+          <rect x="430" y="${y - 14}" width="${barWidth}" height="18" rx="7" fill="#e7edf2"></rect>
+          <rect x="430" y="${y - 14}" width="${width}" height="18" rx="7" fill="${fill}"></rect>
+          <text x="748" y="${y}" font-size="11.5" fill="${colors.text}" font-weight="700">${label}</text>
+        `;
+      }).join("");
+      svg.innerHTML = `<rect x="0" y="0" width="900" height="340" fill="transparent"></rect>${rows}`;
+    }
+
+    function renderOwnerChart() {
+      const svg = document.getElementById("ownerChart");
+      const counts = groupedCounts("owner");
+      const max = Math.max(...counts.map(([, count]) => count));
+      const rows = counts.map(([owner, count], index) => {
+        const y = 34 + index * 48;
+        const width = Math.max(30, count / max * 250);
+        return `
+          <text x="18" y="${y}" font-size="11.5" font-weight="700" fill="#17231d">${escapeHtml(clipLabel(owner, 54))}</text>
+          <rect x="18" y="${y + 10}" width="250" height="16" rx="8" fill="#e6edf3"></rect>
+          <rect x="18" y="${y + 10}" width="${width}" height="16" rx="8" fill="${index === 0 ? "#2f6f4e" : index === 1 ? "#6f7d3a" : index === 2 ? "#b7791f" : "#7a8060"}"></rect>
+          <text x="288" y="${y + 23}" font-size="12" font-weight="700" fill="#17231d">${count}</text>
+        `;
+      }).join("");
+      svg.innerHTML = rows;
+    }
+
+    ["searchInput", "fundFilter", "ownerFilter"].forEach(id => {
+      document.getElementById(id).addEventListener("input", renderProjects);
+      document.getElementById(id).addEventListener("change", renderProjects);
+    });
+
+    renderMembers();
+    populateOwnerFilter();
+    renderProjects();
+    renderOwnerFundChart();
+    renderProgressDataChart();
+    renderProgressPercentChart();
+  </script>
+</body>
+</html>
